@@ -54,17 +54,9 @@ public class SellerDaoJDBC implements SellerDao {
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if(rs.next()) {
-				Department dep = new Department();//Convertendo a tabela DB em objeto
-				dep.setId(rs.getInt("DepartmentId"));
-				dep.setName(rs.getString("DepName"));
+				Department dep = InstanciateDepartment(rs);//Função auxiliar criado
 				
-				Seller sel = new Seller();
-				sel.setId(rs.getInt("Id"));
-				sel.setName(rs.getString("Name"));
-				sel.setEmail(rs.getString("Email"));
-				sel.setBirthDate(rs.getDate("BirthDate"));
-				sel.setBaseSalary(rs.getDouble("BaseSalary"));
-				sel.setDepartment(dep);
+				Seller sel = InstanciateSeller(rs,dep);//Função auxiliar criado
 				return sel;
 			}
 			return null;
@@ -80,6 +72,25 @@ public class SellerDaoJDBC implements SellerDao {
 		
 		
 	
+	}
+	//Função auxiliar de Department
+	private Seller InstanciateSeller(ResultSet rs, Department dep) throws SQLException {
+		Seller sel = new Seller();
+		sel.setId(rs.getInt("Id"));
+		sel.setName(rs.getString("Name"));
+		sel.setEmail(rs.getString("Email"));
+		sel.setBirthDate(rs.getDate("BirthDate"));
+		sel.setBaseSalary(rs.getDouble("BaseSalary"));
+		sel.setDepartment(dep);
+		return sel;
+	}
+
+	//Função auxiliar de Department
+	private Department InstanciateDepartment(ResultSet rs) throws SQLException {
+		Department dep = new Department();//Convertendo a tabela DB em objeto
+		dep.setId(rs.getInt("DepartmentId"));
+		dep.setName(rs.getString("DepName"));
+		return dep;
 	}
 
 	@Override
