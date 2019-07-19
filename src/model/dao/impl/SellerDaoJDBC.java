@@ -43,7 +43,7 @@ public class SellerDaoJDBC implements SellerDao {
 			st.setInt(5, sell.getDepartment().getId());
 			
 			int rowsAffected = st.executeUpdate();
-
+			
 			if(rowsAffected > 0) {
 				ResultSet rs = st.getGeneratedKeys();
 				if(rs.next()) {
@@ -65,8 +65,29 @@ public class SellerDaoJDBC implements SellerDao {
 	}
 
 	@Override
-	public void updateSeller(Seller obj) {
-		// TODO Auto-generated method stub
+	public void updateSeller(Seller sell) {
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+					"UPDATE seller "
+					+"SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? "
+					+"WHERE Id = ?");
+			
+			st.setString(1, sell.getName());
+			st.setString(2, sell.getEmail());
+			st.setDate(3, new java.sql.Date(sell.getBirthDate().getTime()));//Inseindo Date no DB
+			st.setDouble(4, sell.getBaseSalary());
+			st.setInt(5, sell.getDepartment().getId());
+			st.setInt(6, sell.getId());
+			
+			st.executeUpdate();
+		}
+		catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
 
 	}
 
@@ -154,8 +175,6 @@ public class SellerDaoJDBC implements SellerDao {
 				}
 				Seller sel = InstanciateSeller(rs,dep);//Função auxiliar criado
 				seler.add(sel);
-			
-			
 			}
 			return seler;
 		}
@@ -166,12 +185,6 @@ public class SellerDaoJDBC implements SellerDao {
 			DB.closeResultSet(rs);
 			DB.closeStatement(st);
 		}
-		
-		
-		
-		
-		
-		
 	}
 
 	@Override
@@ -204,8 +217,6 @@ public class SellerDaoJDBC implements SellerDao {
 				}
 				Seller sel = InstanciateSeller(rs,dep);//Função auxiliar criado
 				seler.add(sel);
-			
-			
 			}
 			return seler;
 		}

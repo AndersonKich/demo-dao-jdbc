@@ -2,6 +2,7 @@ package aplication;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import model.dao.DaoFactory;
 import model.dao.SellerDao;
@@ -14,20 +15,23 @@ public class Program {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		SellerDao sellerdao = DaoFactory.creatSellerDao();
 		
-		/*Seller seller = sellerdao.findById(3);
+		//Busca por Id
+		Seller seller = sellerdao.findById(3);
 		System.out.println(seller);
 		System.out.println();
 		
+		//Busca lista completa
 		List<Seller>list = sellerdao.finAll();
 		
-		list.forEach(System.out::println);*/
+		list.forEach(System.out::println);
 		
-		
+		//Inserir dados
 	 sellerdao.insertSeller(new Seller(null, "Jose", "jose@hotmail.com", sdf.parse("10/08/1989"), 1500.0, new Department(2, null)));
 		
-		
-		
-		
+		//Atualizar dados
+	 seller = sellerdao.findById(4);
+	 seller.setName("Martha Wayne");
+	 sellerdao.updateSeller(seller);
 		
 		
 	}
