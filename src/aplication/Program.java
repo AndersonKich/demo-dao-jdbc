@@ -23,16 +23,20 @@ public class Program {
 		//Busca lista completa
 		List<Seller>list = sellerdao.finAll();
 		
-		list.forEach(System.out::println);
+		//list.forEach(System.out::println);
 		
 		//Inserir dados
-	 sellerdao.insertSeller(new Seller(null, "Jose", "jose@hotmail.com", sdf.parse("10/08/1989"), 1500.0, new Department(2, null)));
+	 //sellerdao.insertSeller(new Seller(null, "Jose", "jose@hotmail.com", sdf.parse("10/08/1989"), 1500.0, new Department(2, null)));
 		
 		//Atualizar dados
 	 seller = sellerdao.findById(4);
 	 seller.setName("Martha Wayne");
 	 sellerdao.updateSeller(seller);
-		
+	 
+	 	//Deletar dados
+	 
+	sellerdao.deleteById(4);
+	 
 		
 	}
 
